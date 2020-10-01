@@ -1,0 +1,69 @@
+<mat-nav-list>
+    <div class="profile-card">
+        <div class="header">
+            <h2>Adarsha</h2>
+        </div>
+        <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="">
+    </div>
+
+    <!-- <mat-divider></mat-divider>
+
+    <h2 matSubheader>Pages</h2>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Dashboard</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/passbook">passbook</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/passbook">ATM</a>
+    <mat-divider></mat-divider> -->
+
+    <mat-accordion hideToggle>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Account</mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Add Account</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Update Account</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Delete Account</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Account Details</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Customer Details</a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Transaction</mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">credit by slip</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">debit by slip</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">credit by acheque</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">debit by cheque</a>
+        </mat-expansion-panel>
+    
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Loan Request</mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Add request</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">pending</a>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-divider></mat-divider>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Loan Disbursal</a>
+    <mat-divider></mat-divider>
+    <mat-divider></mat-divider>
+    <mat-accordion hideToggle>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>PassBook</mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Passbook update</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">Account Summary</a>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>ATM service</mat-panel-title>
+            </mat-expansion-panel-header>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">card block</a>
+            <a mat-list-item routerLinkActive="list-item-active" routerLink="/">card request</a>
+        </mat-expansion-panel>
+    </mat-accordion>
+    
+</mat-nav-list>
