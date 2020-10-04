@@ -6,19 +6,28 @@ import { RouterModule } from '@angular/router';
 import { PassbookComponent } from 'src/app/modules/passbook/passbook.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSidenavModule} from '@angular/material/sidenav';
+import { AddAtmComponent } from 'src/app/modules/add-atm/add-atm.component'
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BlockCardComponent } from 'src/app/modules/block-card/block-card.component';
+import { AccountSummaryComponent } from 'src/app/modules/account-summary/account-summary.component';
 
 
 @NgModule({
   declarations: [
     DefaultComponent,
     DashboardComponent,
-    PassbookComponent
+    PassbookComponent,
+    AddAtmComponent,
+    BlockCardComponent,
+    AccountSummaryComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     SharedModule,
-    MatSidenavModule
+    MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class DefaultModule { }

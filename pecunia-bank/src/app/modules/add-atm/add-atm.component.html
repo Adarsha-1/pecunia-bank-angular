@@ -1,0 +1,58 @@
+<div class="row" *ngIf="isSearch">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <form [formGroup]="searchFilter"  (ngSubmit)="Search()">
+    
+            <div class="form-group">
+              <label for="name">Account Number</label>
+              <input type="text" class="form-control"  formControlName="id" data-toggle="tooltip" 
+                 data-placement="right" placeholder="Enter Account numnber" >
+            </div>
+    
+            <button type="submit" class="btn btn-success">Search</button>
+        </form>
+    </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="accountValid">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <form [formGroup]="verifyOtp"  (ngSubmit)="verify()">
+    
+            <div class="form-group">
+              <label for="name">OTP</label>
+              <input type="text" class="form-control"  formControlName="otp" data-toggle="tooltip" 
+                 data-placement="right" placeholder="Enter Otp numnber" >
+            </div>
+            <button type="submit" class="btn btn-success">Verify</button>
+        </form>
+    </div>
+    </div>
+  </div>
+
+  <div>
+    &nbsp;&nbsp;&nbsp;
+  </div>
+  <div class="row" *ngIf="requestCard">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <form [formGroup]="accountField"  (ngSubmit)="request()">
+          <button type="submit" class="btn btn-success">card request</button>
+      </form>
+    </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="isDone">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <h2>{{sucess}}</h2>
+        <button type="submit" class="btn btn-success" (click)="refresh()">Add request</button>
+    </div>
+    </div>
+  </div>
