@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import  {FormGroup, FormBuilder, Validators,FormControl} from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { AtmRegistry } from 'src/app/atm-registry';
 import { AtmService } from 'src/app/atm.service';
 import { OtpSystem } from 'src/app/otp-system';
 import {Router} from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-atm',
@@ -18,9 +20,10 @@ export class AddAtmComponent implements OnInit {
   isSearch:boolean=true;
   accountValid:boolean=false;
   accountValidForm:boolean=false;
+  isOtpVerifyFlag:boolean=false;
   isDone:boolean=false;
   otp:OtpSystem=new OtpSystem();
-  otpList:Observable<String[]>;
+  otpList:String[];
   arrayString:String[];
   requestCard:boolean=false;
   otpVerify:OtpSystem=new OtpSystem();
@@ -30,16 +33,24 @@ export class AddAtmComponent implements OnInit {
   accountField:FormGroup;
   card:boolean;
   sucess:String;
+  otpVerifymsg:String;
+  isValidAtm:boolean=false;
+  atmNumberPattern="(2)[0-9]{9}";
+  otpPattern="[0-9]{4}";
+  accountValidString:String;
+  phoneString:String;
+  error=null;
+  
   constructor( private atmService:AtmService,private formBuilder:FormBuilder,private router:Router) { }
 
   ngOnInit(): void {
     this.searchFilter =this.formBuilder.group({
       
-      id:['',[Validators.required]]
+      id:['',[Validators.required,Validators.pattern(this.atmNumberPattern)]]
     });
     this.verifyOtp=this.formBuilder.group(
       {
-        otp:['',[Validators.required]]
+        otp:['',[Validators.required,Validators.pattern(this.otpPattern)]]
       }
     );
 
@@ -57,6 +68,14 @@ export class AddAtmComponent implements OnInit {
           console.log("entered account number is: "+data)
           this.accountValidForm=data;
           this.accountNo=this.searchFilter.controls.id.value;
+          if(data == false)
+          {
+            this.accountValidString="Account number is not found"
+          }
+          else
+          {
+            this.accountValidString=""
+          }
         }
       )
     }
@@ -65,14 +84,36 @@ export class AddAtmComponent implements OnInit {
       console.log("account verified and otp can be send")
       this.accountValid=true;
       this.isSearch=false;
-      this.otp.mobileNumber="+917539921040";
-      this.atmService.sendOtp(this.otp).subscribe(
+      this.atmService.getAccountPhoneNumber(this.searchFilter.controls.id.value).subscribe(
         data=>
         {
-          console.log(data);
-        }
+          console.log("Phone number is: "+data);
+          this.phoneString="+91"+data;
+          console.log("Obtained Phone number is: "+this.phoneString)
+          this.otp.mobileNumber=this.phoneString
+          console.log("after "+this.otp.mobileNumber);
+          this.atmService.sendOtp(this.otp).subscribe(
+            data=>
+              {
+                console.log(data);
+              }
+            )
+        },
+        error => console.log("Data cant")
       )
+      
+      
     }
+  }
+
+  get AccountNumber()
+  {
+    return this.searchFilter.get("id");
+  }
+
+  get otpNumber()
+  {
+    return this.verifyOtp.get("otp");
   }
 
   verify()
@@ -85,9 +126,15 @@ export class AddAtmComponent implements OnInit {
       {
         console.log("submit otp value is: "+data);
         this.otpList=data;
-        window.alert(data);
-        this.isSearch=false;
-        this.requestCard=true;
+        this.isOtpVerifyFlag=true;
+        this.otpVerifymsg=this.otpList[0];
+        if(this.otpList.includes("Otp is verified"))
+        {
+          console.log("Entereed otp sucess if")
+          this.isOtpVerifyFlag=false;
+          this.requestCard=true;
+          this.accountValid=false;
+        }
       }
     )
     
@@ -97,7 +144,12 @@ export class AddAtmComponent implements OnInit {
   {
     console.log("atm card request for account can be serviced");
     this.atmCardRequest.accountNumber=this.searchFilter.controls.id.value;
-    this.atmService.requestCard(this.searchFilter.controls.id.value).subscribe(data=>
+    this.atmService.requestCard(this.searchFilter.controls.id.value).pipe(catchError((error:HttpErrorResponse)=>
+    {
+      //window.alert(error.error.message);
+      return throwError("Card already exists");
+    }))
+    .subscribe(data=>
       {
         this.card=data;
         console.log(data);
@@ -115,7 +167,10 @@ export class AddAtmComponent implements OnInit {
       error => 
       {
         //console.log(error);
-        window.alert("card exists")
+        this.error=error.message;
+        
+        window.alert("Card already exists");
+        window.location.reload();
       })
   }
 

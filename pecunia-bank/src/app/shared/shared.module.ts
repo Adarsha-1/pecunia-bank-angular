@@ -12,12 +12,13 @@ import { MatMenuModule} from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list'
 import { RouterModule } from '@angular/router';
 import { MatExpansionModule} from '@angular/material/expansion';
+import { MatTableDataSource } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     FooterComponent,
     HeaderComponent,
-    SidebarComponent
+    SidebarComponent,
   ],
   imports: [
     CommonModule,

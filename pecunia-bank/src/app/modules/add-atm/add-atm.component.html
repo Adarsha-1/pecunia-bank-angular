@@ -1,15 +1,24 @@
+<h1>Atm Request</h1>
 <div class="row" *ngIf="isSearch">
     <div class="col-sm-4"></div>
     <div class="col-sm-4" >
       <div  style="width: 400px;">
         <form [formGroup]="searchFilter"  (ngSubmit)="Search()">
     
+          
             <div class="form-group">
-              <label for="name">Account Number</label>
+              
+                <label for="name">Account Number</label>
               <input type="text" class="form-control"  formControlName="id" data-toggle="tooltip" 
-                 data-placement="right" placeholder="Enter Account numnber" >
+                 data-placement="right" placeholder="Enter Account number">
+                 <div class="alert alert-danger" *ngIf = "( AccountNumber.touched) && ( AccountNumber.invalid)" 
+                style="margin-top: 5px;">
+                  <span *ngIf=" AccountNumber.errors.required">Account number is Required</span>  
+                    <span *ngIf="searchFilter.controls['id'].hasError('pattern')">Account number should have exactly 10 digits starting with 2</span>                 
+                </div>
+                
             </div>
-    
+            <p class="text-danger">{{accountValidString}}</p>
             <button type="submit" class="btn btn-success">Search</button>
         </form>
     </div>
@@ -25,13 +34,28 @@
             <div class="form-group">
               <label for="name">OTP</label>
               <input type="text" class="form-control"  formControlName="otp" data-toggle="tooltip" 
-                 data-placement="right" placeholder="Enter Otp numnber" >
+                 data-placement="right" placeholder="Enter Otp number" >
+                 <div class="alert alert-danger" *ngIf = "( otpNumber.touched) && ( otpNumber.invalid)" 
+                style="margin-top: 5px;">
+                  <span *ngIf=" otpNumber.errors.required">OTP is Required</span>  
+                    <span *ngIf="verifyOtp.controls['otp'].hasError('pattern')">OTP should have 4 digits</span>                 
+                </div>
             </div>
+            <p class="text-danger">{{otpVerifymsg}}</p>
             <button type="submit" class="btn btn-success">Verify</button>
         </form>
     </div>
     </div>
   </div>
+
+  <!-- <div class="row" *ngIf="isOtpVerifyFlag">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+            <p>{{otpVerifymsg}}</p>
+    </div>
+    </div>
+  </div> -->
 
   <div>
     &nbsp;&nbsp;&nbsp;
@@ -41,6 +65,7 @@
     <div class="col-sm-4" >
       <div  style="width: 400px;">
         <form [formGroup]="accountField"  (ngSubmit)="request()">
+          <p>{{otpVerifymsg}}</p>
           <button type="submit" class="btn btn-success">card request</button>
       </form>
     </div>

@@ -11,11 +11,11 @@ const routes: Routes = [
   {path:'',component:DefaultComponent,
     children:[{
       path:'',component: DashboardComponent
-    },{
-      path:'passbook',component:PassbookComponent
-  },{path:'add-atm',component:AddAtmComponent},
-  {path:'block-card',component:BlockCardComponent},
-  {path:'account-summary',component:AccountSummaryComponent}
+    },
+    {path:'add-atm',component:AddAtmComponent},
+    {path:'block-card',component:BlockCardComponent},
+    {path:'account-summary',component:AccountSummaryComponent},
+    {path:'update-passbook',component:PassbookComponent}
 ]
   }
   ];

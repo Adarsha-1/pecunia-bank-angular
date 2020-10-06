@@ -10,6 +10,9 @@ import { AddAtmComponent } from 'src/app/modules/add-atm/add-atm.component'
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BlockCardComponent } from 'src/app/modules/block-card/block-card.component';
 import { AccountSummaryComponent } from 'src/app/modules/account-summary/account-summary.component';
+import {  MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -27,7 +30,10 @@ import { AccountSummaryComponent } from 'src/app/modules/account-summary/account
     SharedModule,
     MatSidenavModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class DefaultModule { }

@@ -21,26 +21,34 @@ export class BlockCardComponent implements OnInit {
 
   otp:OtpSystem=new OtpSystem();
   cardFound:boolean=false;
-  otpList:Observable<String[]>;
+  otpList:String[];
   isCardBlockFlag:boolean=false;
+  isOtpVerifyFlag:boolean=false;
 
   otpVerify:OtpSystem=new OtpSystem();
   blockCardRegistry:AtmRegistry=new AtmRegistry();
 
   isDoneFlag:boolean=false;
+  otpSucess:String;
   sucess:String;
+  validAtmNumberString:String;
+  phonseString:String;
+  accountNo:number;
+
+  atmPattern="(52)[0-9]{10}";
+  otpPattern="[0-9]{4}";
   
   constructor(private atmService:AtmService,private formBuilder:FormBuilder,private router:Router) { }
 
   ngOnInit(): void {
     this.searchFilter =this.formBuilder.group({
       
-      id:['',[Validators.required]]
+      id:['',[Validators.required,Validators.pattern(this.atmPattern)]]
     });
 
     this.verifyOtp=this.formBuilder.group(
       {
-        otp:['',[Validators.required]]
+        otp:['',[Validators.required,Validators.pattern(this.otpPattern)]]
       }
     );
 
@@ -58,9 +66,11 @@ export class BlockCardComponent implements OnInit {
         this.cardFound=data;
         if(data ==false)
         {
-          window.alert("Atm card number doesn't exists");
-          
-
+          this.validAtmNumberString="Atm card number doesn't exist";
+        }
+        else
+        {
+          this.validAtmNumberString="";
         }
         
       }
@@ -70,14 +80,38 @@ export class BlockCardComponent implements OnInit {
     {
       this.isOtpFlag=true;
       this.isSearchFlag=false;
-      this.otp.mobileNumber="+917539921040"
-      this.atmService.sendOtp(this.otp).subscribe(
+      this.atmService.getAccountNo(this.searchFilter.controls.id.value).subscribe(
         data=>
         {
-          console.log(data);
+          this.accountNo=data;
+          this.atmService.getAccountPhoneNumber(this.accountNo).subscribe(
+            data=>
+            {
+              this.phonseString="+91"+data;
+              this.otp.mobileNumber=this.phonseString;
+              this.atmService.sendOtp(this.otp).subscribe(
+                data=>
+                {
+                  console.log(data);
+                }
+              )
+            }
+          )
         }
       )
+      
+      
     }
+  }
+
+  get atmNumber()
+  {
+    return this.searchFilter.get('id');
+  }
+
+  get otpNumber()
+  {
+    return this.verifyOtp.get("otp");
   }
 
   verify()
@@ -89,8 +123,14 @@ export class BlockCardComponent implements OnInit {
       {
         console.log("submit otp value is: "+data);
         this.otpList=data;
-        window.alert(data);
-        this.isCardBlockFlag=true;
+        this.otpSucess=this.otpList[0];
+        this.isOtpVerifyFlag=true;
+        if(this.otpList.includes("Otp is verified"))
+        {
+          this.isCardBlockFlag=true;
+          this.isOtpFlag=false;
+          this.isOtpVerifyFlag=false;
+        }
 
       }
     )

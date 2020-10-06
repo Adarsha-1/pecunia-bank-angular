@@ -1,1 +1,123 @@
-<p>passbook works!</p>
+<h2>Update Passbook</h2>
+<div class="row" *ngIf="isSearchFlag">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <form [formGroup]="searchFilter"  (ngSubmit)="Search()">
+    
+            <div class="form-group">
+              <label for="name">Account Number</label>
+              <input type="text" class="form-control"  formControlName="id" data-toggle="tooltip" 
+                 data-placement="right" placeholder="Enter Account number" >
+                 <div class="alert alert-danger" *ngIf = "( AccountNumber.touched) && ( AccountNumber.invalid)" 
+                style="margin-top: 5px;">
+                  <span *ngIf=" AccountNumber.errors.required">Account number is Required</span>  
+                    <span *ngIf="searchFilter.controls['id'].hasError('pattern')">Account number should have exactly 10 digits starting with 2</span>                 
+                </div>
+            </div>
+            <p class="text-danger">{{accountValidString}}</p>
+            <button type="submit" class="btn btn-success">Search</button>
+        </form>
+    </div>
+    </div>
+  </div>
+<!-- 
+  <div class="row" *ngIf="isOtpFlag">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <form [formGroup]="verifyOtp"  (ngSubmit)="verify()">
+    
+            <div class="form-group">
+              <label for="name">OTP</label>
+              <input type="text" class="form-control"  formControlName="otp" data-toggle="tooltip" 
+                 data-placement="right" placeholder="Enter Otp numnber" >
+                 <div class="alert alert-danger" *ngIf = "( otpNumber.touched) && ( otpNumber.invalid)" 
+                style="margin-top: 5px;">
+                  <span *ngIf=" otpNumber.errors.required">OTP is Required</span>  
+                    <span *ngIf="verifyOtp.controls['otp'].hasError('pattern')">OTP should have 4 digits</span>                 
+                </div>
+            </div>
+            <p class="text-danger">{{otpString}}</p>
+            <button type="submit" class="btn btn-success">Verify</button>
+        </form>
+    </div>
+    </div>
+  </div> -->
+
+
+
+  <div class="row" *ngIf="isUpdateFlag">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4" >
+      <div  style="width: 400px;">
+        <form>
+            <button type="submit" class="btn btn-success" (click)="Update()">Update Passbook</button>
+        </form>
+    </div>
+    </div>
+  </div>
+  <div *ngIf="isTransactionFlag">
+    <button type="button" class="btn btn-primary" (click)="refresh()">Home</button>
+  </div>
+
+  <div *ngIf="isTransactionFlag" id="content" #content>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Enter transactionId" #input>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="transactionId">
+        <th mat-header-cell *matHeaderCellDef> Id. </th>
+        <td mat-cell *matCellDef="let element"> {{element.transactionId}} </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="accountNo">
+        <th mat-header-cell *matHeaderCellDef> accountNo </th>
+        <td mat-cell *matCellDef="let element"> {{element.accountNo}} </td>
+      </ng-container>
+    
+      <!-- Weight Column -->
+      <ng-container matColumnDef="transcationType">
+        <th mat-header-cell *matHeaderCellDef> type </th>
+        <td mat-cell *matCellDef="let element"> {{element.transcationType}} </td>
+      </ng-container>
+    
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.transcationAmount}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> date </th>
+        <td mat-cell *matCellDef="let element"> {{element.transcationDate}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> status </th>
+        <td mat-cell *matCellDef="let element"> {{element.transcationStatus}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef> Balance </th>
+        <td mat-cell *matCellDef="let element"> {{element.balance}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No Transactions Present</td>
+      </tr>
+    </table>
+    <div></div>
+    <div class="button1">
+    <button type="button" class="btn btn-primary" (click)="download()">Download</button>
+    </div>
+  </div>

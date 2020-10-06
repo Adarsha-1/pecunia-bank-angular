@@ -4,7 +4,7 @@ mat-drawer
 }
 
 mat-drawer-container{
-    height: 83%;
+    height: 85%;
 }
 mat-drawer-content {
     padding: 20px;
@@ -15,4 +15,8 @@ mat-drawer-content {
     font-display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+body{
+    background-image: url("src/assets/images/images.jpg");
 }

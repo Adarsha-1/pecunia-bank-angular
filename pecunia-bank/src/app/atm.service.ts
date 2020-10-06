@@ -23,6 +23,18 @@ export class AtmService {
     return this.http.get(url);
 
   }
+
+  getAccountNo(id:number):Observable<any>
+  {
+    let url=this.baseUrl+"/account/"+id;
+    return this.http.get(url);
+  }
+
+  getAccountPhoneNumber(id:number):Observable<any>
+  {
+    let url="http://localhost:8081/contact/accountNo/"+id;
+    return this.http.get(url);
+  }
   sendOtp(otp:object):Observable<any>
   {
     let url="http://localhost:8085/otp/mobilenumber";
@@ -53,9 +65,6 @@ export class AtmService {
     let url="http://localhost:8082/atm/api/"+id;
     return this.http.get(url);
   }
-
-  accountSummary(id:number,fromDate:Date,todate:Date):Observable<any>
-  {
-    let url="http://localhost:8083/"
-  }
+  
+  
 }
